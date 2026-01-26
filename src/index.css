@@ -1,0 +1,35 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color: white;
+}
+
+html,body,#root{
+  width: 100%;
+  /* background-color: 'black'; */
+}
+html{
+  background-color: black;;
+}
+main{
+  position: relative;
+}
+section{
+min-height: 100vh;
+position: relative;
+z-index: 2;
+}
+
+#section-1 {
+ nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+   .nav-element{
+    max-width: 10rem;
+    min-height: 2rem;
+  }
+ }
+}
