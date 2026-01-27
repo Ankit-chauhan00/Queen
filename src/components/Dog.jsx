@@ -35,26 +35,18 @@ const Dog = () => {
   })
 }, [scene])
 
-const floatTime = useRef(0)
-useFrame((state, delta) => {
-  floatTime.current += delta
-
-  if (modelRef.current) {
-    modelRef.current.rotation.y += 0.005
-  }
-
-  scene.traverse((child) => {
-    if (child.isMesh && child.material) {
-      child.material.color.setRGB(
-        modelColor.current.r,
-        modelColor.current.g,
-        modelColor.current.b
-      )
-    }
-  })
-})
+// 
 
   useGSAP(()=>{
+
+    const intro = gsap.timeline().
+    from(modelRef.current.position,{
+      x: -10,
+      duration:2,
+    },'0').from(modelRef.current.rotation,{
+      y: Math.PI/10,
+      duration:2,
+    },'0')
 
 
     const tl = gsap.timeline({
