@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { OrbitControls, PerspectiveCamera, useGLTF } from "@react-three/drei"
 import { useThree } from "@react-three/fiber";
 import { useEffect,useState, useRef } from "react"
@@ -13,49 +14,9 @@ const Dog = () => {
   const { scene } = useGLTF("/models/queen.glb")
   const { camera, gl } = useThree();
 
-  
 
-  const guiRef = useRef()
   const modelRef = useRef();
 
-
-  useEffect(() => {
-    const gui = new GUI()
-    guiRef.current = gui
-
-    const params = {
-      rotationY: 0,
-      metalness: 0.9,
-      roughness: 0.3,
-    }
-
-  
-
-    // ROTATION
-    gui.add(params, "rotationY", 0, Math.PI * 2).onChange((v) => {
-      scene.rotation.y = v
-    })
-
-    // METALNESS
-    gui.add(params, "metalness", 0, 1).onChange((v) => {
-      scene.traverse((child) => {
-        if (child.isMesh && child.material) {
-          child.material.metalness = v
-        }
-      })
-    })
-
-    // ROUGHNESS
-    gui.add(params, "roughness", 0, 1).onChange((v) => {
-      scene.traverse((child) => {
-        if (child.isMesh && child.material) {
-          child.material.roughness = v
-        }
-      })
-    })
-
-    return () => gui.destroy()
-  }, [scene])
 
   const modelColor = useRef({ r: 0, g: 0, b: 0 }) // gold
 
@@ -74,6 +35,25 @@ const Dog = () => {
   })
 }, [scene])
 
+const floatTime = useRef(0)
+useFrame((state, delta) => {
+  floatTime.current += delta
+
+  if (modelRef.current) {
+    modelRef.current.rotation.y += 0.005
+  }
+
+  scene.traverse((child) => {
+    if (child.isMesh && child.material) {
+      child.material.color.setRGB(
+        modelColor.current.r,
+        modelColor.current.g,
+        modelColor.current.b
+      )
+    }
+  })
+})
+
   useGSAP(()=>{
 
 
@@ -85,15 +65,12 @@ const Dog = () => {
         endTrigger: '#section-3',
         end: 'top top',
         scrub: true,
-        markers: true,
       }
     })
 
     tl.to(modelRef.current.position,{
       z:"-=2",
-      y:"+=0.8"
-    },'0').to(modelRef.current.rotation,{
-      y:'+=6.3',
+      y:"+=1.5"
     },'0')
 
       // COLOR ANIMATION
@@ -125,23 +102,21 @@ const Dog = () => {
   return (
     <>
       {/* Camera */}
-      <PerspectiveCamera makeDefault position={[0, 3, 2]} />
+      <PerspectiveCamera makeDefault position={[0, 2.5, 2]} />
        {/* Lights */}
       <ambientLight intensity={1.4} />
       <directionalLight position={[5, 5, 5]} intensity={5}/>
 
       <group
         ref={modelRef}
-        position={[0, 0, 0]}
+        position={[0, -0.5, 0]}
         rotation={[0, 4.7, 0]}
-        scale={1.6}
+        scale={1.8}
       
       >
         <primitive object={scene} />
       </group>
-
       
-
        <OrbitControls enableDamping  enablePan={false} enableZoom={false} enableRotate={false}  target={[0, 2.7, 0]} args={[camera, gl.domElement]} />
     </>
   )
