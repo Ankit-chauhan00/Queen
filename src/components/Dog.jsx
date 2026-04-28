@@ -18,7 +18,7 @@ const Dog = () => {
   const modelRef = useRef();
 
 
-  const modelColor = useRef({ r: 0, g: 0, b: 0 }) // gold
+  const modelColor = useRef({ r: 1, g: 0, b: 0 }) // gold
 
   useEffect(() => {
   scene.traverse((child) => {
@@ -35,48 +35,20 @@ const Dog = () => {
   })
 }, [scene])
 
-// 
 
-  useGSAP(()=>{
+useFrame(() => {
 
-    const intro = gsap.timeline().
-    from(modelRef.current.position,{
-      x: -10,
-      duration:2,
-    },'0').from(modelRef.current.rotation,{
-      y: Math.PI/10,
-      duration:2,
-    },'0')
+  scene.traverse((child) => {
+    if (child.isMesh && child.material) {
+      child.material.color.setRGB(
+        modelColor.current.r,
+        modelColor.current.g,
+        modelColor.current.b
+      )
+    }
+  })
+})
 
-
-    const tl = gsap.timeline({
-      delay: 0.5,
-       scrollTrigger:{
-        trigger: '#section-1',
-        start: 'top top',
-        endTrigger: '#section-3',
-        end: 'top top',
-        scrub: true,
-      }
-    })
-
-    tl.to(modelRef.current.position,{
-      z:"-=2",
-      y:"+=1.5"
-    },'0')
-
-      // COLOR ANIMATION
-     tl.fromTo(
-    modelColor.current,
-    { r: 1, g: 1, b: 1 },   // gold
-    { r: 0.6, g: 0.5, b: 1.5 },         // black
-    0
-  )
-     setTimeout(() => {
-  ScrollTrigger.refresh();
-}, 100);
-    
-  },[])
 
   useFrame(() => {
   scene.traverse((child) => {
@@ -90,6 +62,51 @@ const Dog = () => {
     }
   })
 })
+useGSAP(() => {
+
+  // INTRO ANIMATION
+  gsap.timeline()
+    .from(modelRef.current.position, {
+      x: -15,
+      duration: 2,
+      ease: "power3.out"
+    })
+    .from(modelRef.current.rotation, {
+      y: 1.5,
+      duration: 3.5,
+      ease: "power3.out"
+    }, 0)
+
+  // SCROLL ANIMATION
+  const tl = gsap.timeline({
+    delay: 0.5,
+    scrollTrigger: {
+      trigger: '#section-1',
+      start: 'top top',
+      endTrigger: '#section-3',
+      end: 'top top',
+      scrub: true,
+    }
+  })
+
+  tl.to(modelRef.current.position, {
+    z: "-=2",
+    y: "+=1.5",
+  }, 0)
+
+  // COLOR → purple glow
+  tl.fromTo(
+    modelColor.current,
+    { r: 1, g: 1, b: 1 },
+    { r: 0.6, g: 0.4, b: 1 },
+    0
+  )
+
+  // REFRESH
+  ScrollTrigger.refresh()
+
+}, [])
+
   
   return (
     <>

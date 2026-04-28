@@ -235,3 +235,17 @@ opacity: 1;
 main:has(#section-2 .title[img-title='cosmic7']:hover) #cosmic7{
 opacity: 1;
 }
+
+#section-3{
+  padding-block: 10rem;
+  padding-inline: 8rem;
+  opacity: 0.7;
+  .top, .bottom{
+    display: flex;
+    width: 100%;
+
+    .left, .right{
+      width: 10%;
+    }
+  }
+}

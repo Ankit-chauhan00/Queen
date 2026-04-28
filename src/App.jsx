@@ -1,15 +1,20 @@
+import { Loader } from '@react-three/drei';
 import Dog from './components/Dog'
 import { Canvas } from "@react-three/fiber"
 import { RiHeartFill } from "@remixicon/react";
+import { Suspense } from 'react';
 
 const App = () => {
 
+
+
   return (
     <>
+    <Loader/>
     <main>
 
       <div className="images">
-        <img id='space' src="/images/space.jpg" alt="" />
+        <img id='space'   src="/images/space.jpg" alt="" />
         <img id='cosmic2' src="/images/cosmic2.jpg" alt="" />
         <img id='cosmic3' src="/images/cosmic3.jpg" alt="" />
         <img id='cosmic4' src="/images/cosmic4.jpg" alt="" />
@@ -18,7 +23,9 @@ const App = () => {
         <img id='cosmic7' src="/images/cosmic7.jpg" alt="" />
       </div>
     <Canvas id='canvas-elem' style={{height: "100vh", width:'100vw', position: 'fixed', top:0 , left: 0, zIndex: 1,  }} >
+      <Suspense fallback={null}>
       <Dog />
+      </Suspense>
     </Canvas>
     <section id='section-1'>
       <nav>
@@ -86,7 +93,21 @@ entertainment, arts & culture</p>
 
       </div>
     </section>
-    <section id='section-3'></section>
+    <section id='section-3'>
+      <div className="top">
+        <div className="left">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.<br/> Ab magni modi tempore tempora. <br/>Quaerat voluptate fugit quasi deleniti quidem temporibus eos dolor <br/>quod aliquam quibusdam, magni nisi eum, dignissimos voluptas?
+        </div>
+        <div className="right"></div>
+      </div>
+      <div className="bottom">
+        <div className="left"></div>
+        <div className="right">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat eum accusamus quaerat nobis ipsum, deserunt molestias ad voluptatem totam dignissimos et odio illum officiis ipsam veritatis accusantium natus aliquam incidunt.
+          Facilis et error optio aperiam dolores officia esse deserunt, voluptatibus quos amet dolore voluptas laboriosam ipsum quidem! Doloremque, cupiditate. Veniam esse unde totam est omnis ex iste maiores cumque itaque.</p>
+        </div>
+      </div>
+    </section>
     </main>
     </>
   )
